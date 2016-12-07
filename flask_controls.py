@@ -45,7 +45,7 @@ def index():
 @app.errorhandler(404)
 def page_not_found(error):
     app.logger.debug("Page not found")
-    flask.session['linkback'] =  flask.url_for("/")
+    flask.session['linkback'] =  flask.url_for("index")
     return flask.render_template('page_not_found.html'), 404
 
 
@@ -63,7 +63,9 @@ def _calc_times():
   Expects one URL-encoded argument, the number of miles. 
   """
   app.logger.debug("Got a JSON request");
-  km = request.args.get('km', 0, type=int)
+  km = request.args.get('km', 999, type=float)
+  app.logger.debug("km={}".format(km))
+  app.logger.debug("request.args: {}".format(request.args))
   #FIXME: These probably aren't the right open and close times
   open_time = acp_times.open_time(km, 200, arrow.now().isoformat)
   close_time = acp_times.close_time(km, 200, arrow.now().isoformat)
