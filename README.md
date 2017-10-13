@@ -11,7 +11,8 @@ minimum and maximum times by which the rider must
 arrive at the location.   
 
 The algorithm for calculating controle times is described at
-https://rusa.org/octime_alg.html . The description is ambiguous,
+https://rusa.org/octime_alg.html .  Additional background information
+is in https://rusa.org/pages/rulesForRiders . The description is ambiguous,
 but the examples help.  Part of finishing this project is clarifying
 anything that is not clear about the requirements, and documenting it
 clearly.  
@@ -45,4 +46,20 @@ calculations should be in a separate module.  Because I want to be
 able to use my test suite as well as yours, I will require that 
 module be named acp_times.py and contain the two functions I have 
 included in the skeleton code (though revised, of course, to 
-return correct results). 
+return correct results).
+
+With your virtual environment activated, we should be able to run your
+test suite by changing to the "brevets" directory and typinng
+"nosetests".   All tests should pass.  You should have at least 5
+test cases, and more importantly, your test cases should be chosen to
+distinguish between an implementation that correctly interprets the
+ACP rules and one that does not.
+
+## Replace this README
+
+This README is currently written primarily as instructions to CIS 322
+students.  Replace it with a proper README for an ACP time
+calculator.  Think about what should be included for users and for
+developers.  If it is growing too long, factor details into one or
+more separate documents, with references from the README.
+

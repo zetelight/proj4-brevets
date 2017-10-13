@@ -1,35 +1,23 @@
 """
-Very simple Flask web site, with one page
-displaying a course schedule.
+Replacement for RUSA ACP brevet time calculator
+(see https://rusa.org/octime_acp.html)
 
 """
 
 import flask
-from flask import render_template
 from flask import request
-from flask import url_for
-from flask import jsonify # For AJAX transactions
-
-import json
-import logging
-
-# Date handling 
 import arrow # Replacement for datetime, based on moment.js
-import datetime # But we still need time
-from dateutil import tz  # For interpreting local times
+import acp_times # Brevet time calculations
+import config   
 
-# Our own module
-import acp_times
+import logging
 
 ###
 # Globals
 ###
 app = flask.Flask(__name__)
-import CONFIG
-
-app = flask.Flask(__name__)
-import CONFIG
-app.secret_key = CONFIG.secret_key  # Should allow using session variables
+CONFIG = config.configuration()
+app.secret_key = CONFIG.SECRET_KEY 
 
 ###
 # Pages
@@ -46,7 +34,7 @@ def index():
 def page_not_found(error):
     app.logger.debug("Page not found")
     flask.session['linkback'] =  flask.url_for("index")
-    return flask.render_template('page_not_found.html'), 404
+    return flask.render_template('404.html'), 404
 
 
 ###############
@@ -67,24 +55,19 @@ def _calc_times():
   app.logger.debug("km={}".format(km))
   app.logger.debug("request.args: {}".format(request.args))
   #FIXME: These probably aren't the right open and close times
+  # and brevets may be longer than 200km
   open_time = acp_times.open_time(km, 200, arrow.now().isoformat)
   close_time = acp_times.close_time(km, 200, arrow.now().isoformat)
   result={ "open": open_time, "close": close_time }
-  return jsonify(result=result)
+  return flask.jsonify(result=result)
 
 
 #############
 
-if __name__ == "__main__":
-    # Standalone. 
-    app.debug = True
+app.debug = CONFIG.DEBUG
+if app.debug: 
     app.logger.setLevel(logging.DEBUG)
+
+if __name__ == "__main__":
     print("Opening for global access on port {}".format(CONFIG.PORT))
     app.run(port=CONFIG.PORT, host="0.0.0.0")
-else:
-    # Running from cgi-bin or from gunicorn WSGI server, 
-    # which makes the call to app.run.  Gunicorn may invoke more than
-    # one instance for concurrent service.
-    #FIXME:  Debug cgi interface 
-    app.debug=False
-
