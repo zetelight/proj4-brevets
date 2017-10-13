@@ -12,17 +12,17 @@ import arrow
 #  automated tests for grading.  You must keep
 #  these signatures even if you don't use all the
 #  same arguments.  Arguments are explained in the
-#  javadoc comments. 
+#  javadoc comments.
 #
 
 
-def open_time( control_dist_km, brevet_dist_km, brevet_start_time ):
+def open_time(control_dist_km, brevet_dist_km, brevet_start_time):
     """
     Args:
        control_dist_km:  number, the control distance in kilometers
-       brevet_dist_km: number, the nominal distance of the brevet in kilometers,
-           which must be one of 200, 300, 400, 600, or 1000 (the only official
-           ACP brevet distances)
+       brevet_dist_km: number, the nominal distance of the brevet
+           in kilometers, which must be one of 200, 300, 400, 600,
+           or 1000 (the only official ACP brevet distances)
        brevet_start_time:  An ISO 8601 format date-time string indicating
            the official start time of the brevet
     Returns:
@@ -31,13 +31,14 @@ def open_time( control_dist_km, brevet_dist_km, brevet_start_time ):
     """
     return arrow.now().isoformat()
 
-def close_time( control_dist_km, brevet_dist_km, brevet_start_time ):
+
+def close_time(control_dist_km, brevet_dist_km, brevet_start_time):
     """
     Args:
        control_dist_km:  number, the control distance in kilometers
-       brevet_dist_km: number, the nominal distance of the brevet in kilometers,
-           which must be one of 200, 300, 400, 600, or 1000 (the only official
-           ACP brevet distances)
+          brevet_dist_km: number, the nominal distance of the brevet
+          in kilometers, which must be one of 200, 300, 400, 600, or 1000
+          (the only official ACP brevet distances)
        brevet_start_time:  An ISO 8601 format date-time string indicating
            the official start time of the brevet
     Returns:
@@ -45,5 +46,3 @@ def close_time( control_dist_km, brevet_dist_km, brevet_start_time ):
        This will be in the same time zone as the brevet start time.
     """
     return arrow.now().isoformat()
-
-
