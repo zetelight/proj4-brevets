@@ -14,7 +14,7 @@ logging.basicConfig(format='%(levelname)s:%(message)s',
                     level=logging.WARNING)
 log = logging.getLogger(__name__)
 
-base_time = arrow.get('2017-01-01T00:00:00.000-07:00').isoformat()
+base_time = arrow.get('2017-01-01T00:00:00-07:00').isoformat()
 
 def test_open_time():
     # interval for [0, 200]

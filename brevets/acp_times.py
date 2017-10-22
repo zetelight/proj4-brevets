@@ -18,7 +18,7 @@ finish_time = {200: [5.88, 13.5],
                300: [9.0, 20.0],
                400: [12.13, 27.0],
                600: [18.799, 40.0],
-               1000: [33.08, 72.0]}
+               1000: [33.08, 75.0]}
 
 exceed_number = 1.1
 
@@ -145,7 +145,4 @@ def close_time(control_dist_km, brevet_dist_km, brevet_start_time):
     day, hour, minute = get_hour_min_day(time)
     final_time = arrow.get(brevet_start_time).shift(days=+day, hours=+hour, minutes=+minute)
     return final_time.isoformat()
-
-
-
 
