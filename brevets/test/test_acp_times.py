@@ -59,7 +59,7 @@ def test_close_time():
     print("Begin the test of close time for 200km")
     assert  close_time(0, 200, base_time) == '2017-01-01T01:00:00-07:00'
     assert  close_time(100, 200, base_time) == '2017-01-01T06:40:00-07:00'
-    assert  close_time(150, 200, base_time) == '2017-01-01T010:00:00-07:00'
+    assert  close_time(150, 200, base_time) == '2017-01-01T10:00:00-07:00'
     assert  close_time(200, 200, base_time) == '2017-01-01T13:30:00-07:00'
     assert  close_time(220, 200, base_time) == '2017-01-01T13:30:00-07:00'
     print("Finish the test of close time for 200km")
