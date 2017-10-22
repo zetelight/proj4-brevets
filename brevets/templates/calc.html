@@ -2,6 +2,7 @@
 <html> <head>
 <title>ACP Controle Times</title>
 
+
   <!-- 'viewport' is used by bootstrap to respond to device size -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -10,7 +11,7 @@
      src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
   </script>
 
-  <!-- Bootstrap includes javascript and css  (must follow jquery) -->
+  <!-- Bootstrap includes javascript and css (must follow jquery) -->
   <link rel="stylesheet"
    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
    <script
@@ -19,7 +20,7 @@
 
   <!-- moment.js is the JavaScript equivalent of arrow.py -->
   <script 
-    src="{{ url_for('static', filename="js/moment.min.js") }}"></script>
+    src='{{ url_for('static', filename="js/moment.min.js") }}'></script>
 
 </head>
 
@@ -124,15 +125,24 @@
   // stash them in hidden fields.) 
   function calc_times(control) {
     var km = control.find("input[name='km']").val();
+    var brevet_dist_km = $("[name='distance']").val();
+    var date = $("[name='begin_date']").val();
+    var time = $("[name='begin_time']").val();
+    // .toISOString
+    var begin_time = moment(String(date)+ String(time)).toISOString()
     var open_time_field = control.find("input[name='open']");
     var close_time_field = control.find("input[name='close']");
-    
-    $.getJSON(TIME_CALC_URL, { km: km }, 
+    console.log(brevet_dist_km)
+    console.log(begin_time)
+
+    // Let getJSON sent date, distance to server
+    $.getJSON(TIME_CALC_URL, { km: km, brevet_dist_km: brevet_dist_km, begin_time: begin_time},
       // response handler
       function(data) {
          var times = data.result;
          console.log("Got a response: " +  times);
          console.log("Response.open = " + times.open);
+         // We set the timezone to UTC.
          open_time_field.val( moment(times.open).format("ddd M/D H:mm"));
          close_time_field.val( moment(times.close).format("ddd M/D H:mm"));
        } // end of handler function
@@ -141,7 +151,7 @@
 
   $(document).ready(function(){
    // Do the following when the page is finished loading
-
+   // Automatically convert input from mile to km or km to mile
       $('input[name="miles"]').change(
          function() {
              var miles = parseFloat($(this).val());

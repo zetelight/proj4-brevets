@@ -19,6 +19,7 @@ app = flask.Flask(__name__)
 CONFIG = config.configuration()
 app.secret_key = CONFIG.SECRET_KEY
 
+
 ###
 # Pages
 ###
@@ -49,16 +50,20 @@ def _calc_times():
     """
     Calculates open/close times from miles, using rules
     described at https://rusa.org/octime_alg.html.
-    Expects one URL-encoded argument, the number of miles.
+    Expects one URL-encoded argument, the number of miles, the distance of brevet, the ISO format string of begin time
     """
     app.logger.debug("Got a JSON request")
+    # pass the time, control distance, brevet distance user entered from server
     km = request.args.get('km', 999, type=float)
+    brevet_dist_km = request.args.get('brevet_dist_km', type=int)
+    begin_time = request.args.get('begin_time', type=str)
+    brevet_dist_km = int(brevet_dist_km)
     app.logger.debug("km={}".format(km))
     app.logger.debug("request.args: {}".format(request.args))
-    # FIXME: These probably aren't the right open and close times
-    # and brevets may be longer than 200km
-    open_time = acp_times.open_time(km, 200, arrow.now().isoformat)
-    close_time = acp_times.close_time(km, 200, arrow.now().isoformat)
+
+    # compute the open&close time and send result to calc.html.
+    open_time = acp_times.open_time(km, brevet_dist_km, begin_time)
+    close_time = acp_times.close_time(km, brevet_dist_km, begin_time)
     result = {"open": open_time, "close": close_time}
     return flask.jsonify(result=result)
 

@@ -2,6 +2,8 @@
 __pycache__/
 *.py[cod]
 
+#Pycharm file
+brevets/.idea/
 # C extensions
 *.so
 
